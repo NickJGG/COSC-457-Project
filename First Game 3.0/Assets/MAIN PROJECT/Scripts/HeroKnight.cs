@@ -24,6 +24,11 @@ public class HeroKnight : MonoBehaviour {
     private float               m_delayToIdle = 0.0f;
 
 
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask enemyLayers;
+    public bool isBlocking;
+
     // Use this for initialization
     void Start ()
     {
@@ -110,6 +115,12 @@ public class HeroKnight : MonoBehaviour {
             // Call one of three attack animations "Attack1", "Attack2", "Attack3"
             m_animator.SetTrigger("Attack" + m_currentAttack);
 
+            //Deal Damage and or Destroy Object
+            //Proably place experience stuff here
+
+            Attack();
+
+
             // Reset timer
             m_timeSinceAttack = 0.0f;
         }
@@ -119,6 +130,7 @@ public class HeroKnight : MonoBehaviour {
         {
             m_animator.SetTrigger("Block");
             m_animator.SetBool("IdleBlock", true);
+            Debug.Log("is Blocking");
         }
 
         else if (Input.GetMouseButtonUp(1))
@@ -186,4 +198,43 @@ public class HeroKnight : MonoBehaviour {
             dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
         }
     }
+
+
+
+
+
+    void Attack()
+    {
+
+        Debug.Log("Attack has proceeded");
+
+        Collider2D[] hitenemy = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+        foreach (Collider2D enemy in hitenemy)
+        {
+            Debug.Log("Hit on " + enemy.name);
+            
+
+            //Deal Damage to enemy here
+
+            
+
+        }
+
+    }
+
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null) { return; }
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+
+
+
+
+
+
 }
