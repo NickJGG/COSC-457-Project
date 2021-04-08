@@ -38,6 +38,12 @@ public class HeroKnight : MonoBehaviour {
 
         LevelSystem levelSystem = new LevelSystem(); //Create level System from Construct
 		levelWindow.SetLevelSystem(levelSystem); //Create the Level system UI
+
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
     }
 
     // Update is called once per frame
