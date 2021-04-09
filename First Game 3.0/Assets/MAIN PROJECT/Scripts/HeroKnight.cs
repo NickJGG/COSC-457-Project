@@ -23,6 +23,11 @@ public class HeroKnight : MonoBehaviour {
     private float               m_timeSinceAttack = 0.0f;
     private float               m_delayToIdle = 0.0f;
 
+    // Attacking and Enemies
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask enemyLayers;
+    public int attackDamage = 20;
 
     // Use this for initialization
     void Start ()
@@ -101,14 +106,31 @@ public class HeroKnight : MonoBehaviour {
 
             // Loop back to one after third attack
             if (m_currentAttack > 3)
+            {
                 m_currentAttack = 1;
+                attackDamage = 20;
+            }
+                
 
             // Reset Attack combo if time since last attack is too large
             if (m_timeSinceAttack > 1.0f)
+            {
                 m_currentAttack = 1;
+                attackDamage = 20;
+            }
+                
+
+            // Choosing damage per hit
+            if (m_currentAttack == 2)
+                attackDamage = 30;
+            else if (m_currentAttack == 3)
+                attackDamage = 50;
 
             // Call one of three attack animations "Attack1", "Attack2", "Attack3"
             m_animator.SetTrigger("Attack" + m_currentAttack);
+
+            // Call Attack
+            Attack();
 
             // Reset timer
             m_timeSinceAttack = 0.0f;
@@ -185,5 +207,27 @@ public class HeroKnight : MonoBehaviour {
             // Turn arrow in correct direction
             dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
         }
+    }
+
+    void Attack()
+    {
+        // Detect Enemies in range
+        Collider2D[] hitEnmies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+        // Damage Enemies
+        foreach(Collider2D enemy in hitEnmies)
+        {
+            // Attack Damage
+            Debug.Log("Hit enemy for " + attackDamage);
+            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
