@@ -6802,7 +6802,7 @@ MonoBehaviour:
   attackRange: 4
   isLeftFacing: 1
   scale: 4
-  cooldowntime: 2
+  cooldowntime: 4
 --- !u!95 &331010386 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9180613808859028267, guid: ff7670e373f6c524bafc05498e9e551e,

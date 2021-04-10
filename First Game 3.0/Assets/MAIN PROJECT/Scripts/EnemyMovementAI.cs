@@ -29,12 +29,13 @@ public class EnemyMovementAI : MonoBehaviour
     public float cooldowntime;
     private float next_attacktime;
 
-
+    public int health;
 
     // Start is called before the first frame update
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); //Get Location of Player
+        Debug.Log("Player has been selected as Target");
     }
 
     // Update is called once per frame
@@ -44,17 +45,20 @@ public class EnemyMovementAI : MonoBehaviour
         
         if (Mathf.Abs(Vector2.Distance(target.position, transform.position)) < detectionRange)
         {
+            Debug.Log("Enemy has been detected");
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
             m_animator.SetInteger("AnimState", 2);
             enemyDetected = true;
         }
         else
         {
+            Debug.Log("Enemy is not detected");
             m_animator.SetInteger("AnimState", 0);
         }
 
         if (target.position.x > transform.position.x && Mathf.Abs(Vector2.Distance(target.position, transform.position)) < detectionRange)
         {
+
             transform.localScale = new Vector3(-scale, scale, scale);
 
             
@@ -71,17 +75,66 @@ public class EnemyMovementAI : MonoBehaviour
         if (Mathf.Abs(Vector2.Distance(target.position, transform.position)) < attackRange)
         {
 
+            Debug.Log("Enemy is within attack range");
             m_animator.SetInteger("AnimState", 0);
-            Debug.Log("Hit on player");
             //m_animator.SetInteger("AnimState", 0);
             //m_animator.SetTrigger("Attack");
             //m_animator.SetInteger("AnimState", 101);
 
             if (Time.time > next_attacktime + cooldowntime)
             {
-                Debug.Log("Hit on player");
+
+                Debug.Log("Begining Attack Animation");
                 m_animator.SetInteger("AnimState", 101);
+
+
+                //Damage to player needs to occure here
+                //Collider2D[] hitenemy = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+
+                /*
+                Collider2D[] hitenemy = Physics2D.OverlapCircleAll(transform.position, attackRange, enemyLayers);
+
+
+                foreach (Collider2D enemy in hitenemy)
+                {
+
+                    Debug.Log("Begining Attack Animation");
+
+                    //Deal Damage to enemy here
+                    if (enemy.GetComponent<HeroKnight>().isBlocking)
+                    {
+
+                        Debug.Log("Player Blocked the Attack");
+
+                    }
+                    else
+                    {
+
+                        Debug.Log("Damage has been dealt to player");
+                        enemy.GetComponent<PlayerStats>().TakeDamage(1);
+                    }
+
+                    
+                }
+
+                */
+
+
+                if (GameObject.FindGameObjectWithTag("Player").GetComponent<HeroKnight>().isBlocking)
+                {
+
+                    Debug.Log("Player Blocked the Attack");
+
+                }
+                else
+                {
+
+                    Debug.Log("Damage has been dealt to player");
+                    GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().TakeDamage(1);
+                }
                 next_attacktime = Time.time;
+
             }
 
 
@@ -90,9 +143,13 @@ public class EnemyMovementAI : MonoBehaviour
         else
         {
 
+            Debug.Log("Enemy is NOT within attack range");
         }
 
-
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
         
 
 

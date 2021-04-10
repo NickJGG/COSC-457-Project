@@ -3,6 +3,7 @@
  */
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour {
     public delegate void OnHealthChangedDelegate();
@@ -37,7 +38,12 @@ public class PlayerStats : MonoBehaviour {
 
     public void TakeDamage(float dmg) {
         health -= dmg;
+        Debug.LogWarning("Take Damage Has been Detected");
         ClampHealth();
+        if (health <= 0)
+        {
+            SceneManager.LoadScene("2DProject");
+        }
     }
 
     public void AddHealth() {

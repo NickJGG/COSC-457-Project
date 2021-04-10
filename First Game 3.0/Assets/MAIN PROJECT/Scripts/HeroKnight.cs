@@ -9,6 +9,9 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] bool       m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
 
+
+
+
     private Animator            m_animator;
     private Rigidbody2D         m_body2d;
     private Sensor_HeroKnight   m_groundSensor;
@@ -39,6 +42,12 @@ public class HeroKnight : MonoBehaviour {
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
+
+
+
+        isBlocking = false;
+
+
     }
 
     // Update is called once per frame
@@ -107,10 +116,12 @@ public class HeroKnight : MonoBehaviour {
             // Loop back to one after third attack
             if (m_currentAttack > 3)
                 m_currentAttack = 1;
+                Attack(20);
 
             // Reset Attack combo if time since last attack is too large
             if (m_timeSinceAttack > 1.0f)
                 m_currentAttack = 1;
+                Attack(30);
 
             // Call one of three attack animations "Attack1", "Attack2", "Attack3"
             m_animator.SetTrigger("Attack" + m_currentAttack);
@@ -124,15 +135,19 @@ public class HeroKnight : MonoBehaviour {
             // Reset timer
             m_timeSinceAttack = 0.0f;
         }
-
+        /*
         // Block
         else if (Input.GetMouseButtonDown(1) && !m_rolling)
         {
             m_animator.SetTrigger("Block");
             m_animator.SetBool("IdleBlock", true);
             Debug.Log("is Blocking");
-        }
 
+            isBlocking = true;
+
+
+        }
+        */
         else if (Input.GetMouseButtonUp(1))
             m_animator.SetBool("IdleBlock", false);
 
@@ -171,6 +186,47 @@ public class HeroKnight : MonoBehaviour {
                 if(m_delayToIdle < 0)
                     m_animator.SetInteger("AnimState", 0);
         }
+
+
+        /*
+        if (Input.GetMouseButtonDown(1) && !m_rolling)
+        {
+            m_animator.SetTrigger("Block");
+            m_animator.SetBool("IdleBlock", true);
+            Debug.Log("is Blocking");
+
+            isBlocking = true;
+            Debug.Log("isBlocking : True");
+
+        }
+        else
+        {
+            isBlocking = false;
+            Debug.Log("isBlocking : False");
+        }
+        */
+
+
+
+        if (Input.GetMouseButton(1) && !m_rolling)
+        {
+            m_animator.SetTrigger("Block");
+            m_animator.SetBool("IdleBlock", true);
+            Debug.Log("is Blocking");
+
+            isBlocking = true;
+            Debug.Log("isBlocking : True");
+
+        }
+        else
+        {
+            isBlocking = false;
+            Debug.Log("isBlocking : False");
+        }
+
+
+
+
     }
 
     // Animation Events
@@ -222,6 +278,29 @@ public class HeroKnight : MonoBehaviour {
         }
 
     }
+
+
+
+    void Attack(int inputDamage)
+    {
+
+        //Debug.Log("Attack has proceeded");
+
+        Collider2D[] hitenemy = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+        foreach (Collider2D enemy in hitenemy)
+        {
+            //Debug.Log("Hit on " + enemy.name);
+
+            enemy.GetComponent<EnemyMovementAI>().health = enemy.GetComponent<EnemyMovementAI>().health - inputDamage;
+            //Deal Damage to enemy here
+
+
+
+        }
+
+    }
+
 
 
     private void OnDrawGizmosSelected()
