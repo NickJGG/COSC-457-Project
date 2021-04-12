@@ -27,6 +27,11 @@ public class HeroKnight : MonoBehaviour {
     private float               m_timeSinceAttack = 0.0f;
     private float               m_delayToIdle = 0.0f;
 
+    // Attacking and Enemies
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask enemyLayers;
+    public int attackDamage = 20;
 
     public Transform attackPoint;
     public float attackRange = 0.5f;
@@ -122,22 +127,31 @@ public class HeroKnight : MonoBehaviour {
 
             // Loop back to one after third attack
             if (m_currentAttack > 3)
+            {
                 m_currentAttack = 1;
-                Attack(20);
+                attackDamage = 20;
+            }
+                
 
             // Reset Attack combo if time since last attack is too large
             if (m_timeSinceAttack > 1.0f)
+            {
                 m_currentAttack = 1;
-                Attack(30);
+                attackDamage = 20;
+            }
+                
+
+            // Choosing damage per hit
+            if (m_currentAttack == 2)
+                attackDamage = 30;
+            else if (m_currentAttack == 3)
+                attackDamage = 50;
 
             // Call one of three attack animations "Attack1", "Attack2", "Attack3"
             m_animator.SetTrigger("Attack" + m_currentAttack);
 
-            //Deal Damage and or Destroy Object
-            //Proably place experience stuff here
-
+            // Call Attack
             Attack();
-
 
             // Reset timer
             m_timeSinceAttack = 0.0f;
@@ -262,65 +276,25 @@ public class HeroKnight : MonoBehaviour {
         }
     }
 
-
-
-
-
     void Attack()
     {
+        // Detect Enemies in range
+        Collider2D[] hitEnmies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
-        Debug.Log("Attack has proceeded");
-
-        Collider2D[] hitenemy = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
-        foreach (Collider2D enemy in hitenemy)
+        // Damage Enemies
+        foreach(Collider2D enemy in hitEnmies)
         {
-            Debug.Log("Hit on " + enemy.name);
-            
-
-            //Deal Damage to enemy here
-
-            
-
+            // Attack Damage
+            Debug.Log("Hit enemy for " + attackDamage);
+            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
         }
-
     }
 
-
-
-    void Attack(int inputDamage)
+    void OnDrawGizmosSelected()
     {
-
-        //Debug.Log("Attack has proceeded");
-
-        Collider2D[] hitenemy = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
-        foreach (Collider2D enemy in hitenemy)
-        {
-            //Debug.Log("Hit on " + enemy.name);
-
-            enemy.GetComponent<EnemyMovementAI>().health = enemy.GetComponent<EnemyMovementAI>().health - inputDamage;
-            //Deal Damage to enemy here
-
-
-
-        }
-
-    }
-
-
-
-    private void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null) { return; }
+        if (attackPoint == null)
+            return;
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
-
-
-
-
-
-
-
 }
