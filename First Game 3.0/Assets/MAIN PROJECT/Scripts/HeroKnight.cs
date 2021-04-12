@@ -8,6 +8,7 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] float      m_rollForce = 6.0f;
     [SerializeField] bool       m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
+    [SerializeField] private LevelWindow levelWindow;	
 
 
 
@@ -43,11 +44,17 @@ public class HeroKnight : MonoBehaviour {
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
 
+        LevelSystem levelSystem = new LevelSystem(); //Create level System from Construct
+		levelWindow.SetLevelSystem(levelSystem); //Create the Level system UI
+
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
 
 
         isBlocking = false;
-
-
     }
 
     // Update is called once per frame

@@ -9,6 +9,7 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
 	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
+	[SerializeField] private LevelWindow levelWindow;	
 	
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
@@ -29,6 +30,10 @@ public class CharacterController2D : MonoBehaviour
 
 	private void Awake()
 	{
+		LevelSystem levelSystem = new LevelSystem(); //Create level System from Construct
+		levelWindow.SetLevelSystem(levelSystem); //Create the Level system UI
+
+		levelSystem.AddExperience(200); //Testing
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
 		if (OnLandEvent == null)
