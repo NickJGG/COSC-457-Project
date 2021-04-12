@@ -8,6 +8,10 @@ public class HeroKnight : MonoBehaviour {
     [SerializeField] float      m_rollForce = 6.0f;
     [SerializeField] bool       m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
+    [SerializeField] private LevelWindow levelWindow;	
+
+
+
 
     private Animator            m_animator;
     private Rigidbody2D         m_body2d;
@@ -29,6 +33,11 @@ public class HeroKnight : MonoBehaviour {
     public LayerMask enemyLayers;
     public int attackDamage = 20;
 
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask enemyLayers;
+    public bool isBlocking;
+
     // Use this for initialization
     void Start ()
     {
@@ -39,6 +48,18 @@ public class HeroKnight : MonoBehaviour {
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
+
+        LevelSystem levelSystem = new LevelSystem(); //Create level System from Construct
+		levelWindow.SetLevelSystem(levelSystem); //Create the Level system UI
+
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
+        levelSystem.AddExperience(50);
+
+
+        isBlocking = false;
     }
 
     // Update is called once per frame
@@ -135,14 +156,19 @@ public class HeroKnight : MonoBehaviour {
             // Reset timer
             m_timeSinceAttack = 0.0f;
         }
-
+        /*
         // Block
         else if (Input.GetMouseButtonDown(1) && !m_rolling)
         {
             m_animator.SetTrigger("Block");
             m_animator.SetBool("IdleBlock", true);
-        }
+            Debug.Log("is Blocking");
 
+            isBlocking = true;
+
+
+        }
+        */
         else if (Input.GetMouseButtonUp(1))
             m_animator.SetBool("IdleBlock", false);
 
@@ -181,6 +207,47 @@ public class HeroKnight : MonoBehaviour {
                 if(m_delayToIdle < 0)
                     m_animator.SetInteger("AnimState", 0);
         }
+
+
+        /*
+        if (Input.GetMouseButtonDown(1) && !m_rolling)
+        {
+            m_animator.SetTrigger("Block");
+            m_animator.SetBool("IdleBlock", true);
+            Debug.Log("is Blocking");
+
+            isBlocking = true;
+            Debug.Log("isBlocking : True");
+
+        }
+        else
+        {
+            isBlocking = false;
+            Debug.Log("isBlocking : False");
+        }
+        */
+
+
+
+        if (Input.GetMouseButton(1) && !m_rolling)
+        {
+            m_animator.SetTrigger("Block");
+            m_animator.SetBool("IdleBlock", true);
+            Debug.Log("is Blocking");
+
+            isBlocking = true;
+            Debug.Log("isBlocking : True");
+
+        }
+        else
+        {
+            isBlocking = false;
+            Debug.Log("isBlocking : False");
+        }
+
+
+
+
     }
 
     // Animation Events
