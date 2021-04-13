@@ -54,7 +54,6 @@ public class HeroKnight : MonoBehaviour {
         levelSystem.AddExperience(50);
         levelSystem.AddExperience(50);
 
-
         isBlocking = false;
     }
 
@@ -128,13 +127,11 @@ public class HeroKnight : MonoBehaviour {
                 attackDamage = 20;
             }
 
-
             // Reset Attack combo if time since last attack is too large
             if (m_timeSinceAttack > 1.0f) {
                 m_currentAttack = 1;
                 attackDamage = 20;
             }
-
 
             // Choosing damage per hit
             if (m_currentAttack == 2)
@@ -151,19 +148,6 @@ public class HeroKnight : MonoBehaviour {
             // Reset timer
             m_timeSinceAttack = 0.0f;
         }
-        /*
-        // Block
-        else if (Input.GetMouseButtonDown(1) && !m_rolling)
-        {
-            m_animator.SetTrigger("Block");
-            m_animator.SetBool("IdleBlock", true);
-            //Debug.Log("is Blocking");
-
-            isBlocking = true;
-
-
-        }
-        */
         else if (Input.GetMouseButtonUp(1))
             m_animator.SetBool("IdleBlock", false);
 
@@ -173,7 +157,6 @@ public class HeroKnight : MonoBehaviour {
             m_animator.SetTrigger("Roll");
             m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
         }
-
 
         //Jump
         else if (Input.GetKeyDown("space") && m_grounded && !m_rolling) {
@@ -199,34 +182,10 @@ public class HeroKnight : MonoBehaviour {
                 m_animator.SetInteger("AnimState", 0);
         }
 
-
-        /*
-        if (Input.GetMouseButtonDown(1) && !m_rolling)
-        {
-            m_animator.SetTrigger("Block");
-            m_animator.SetBool("IdleBlock", true);
-            //Debug.Log("is Blocking");
-
-            isBlocking = true;
-            //Debug.Log("isBlocking : True");
-
-        }
-        else
-        {
-            isBlocking = false;
-            //Debug.Log("isBlocking : False");
-        }
-        */
-
         if (Input.GetMouseButton(1) && !m_rolling && !m_animator.GetBool("BlockHit")) {
-            //m_animator.SetTrigger("IdleBlock");
-            //m_animator.SetBool("IdleBlock", true);
-            //Debug.Log("is Blocking");
-
             m_animator.SetBool("IdleBlock", true);
 
             isBlocking = true;
-            //Debug.Log("isBlocking : True");
         }
 
         if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("Block"))
@@ -241,8 +200,6 @@ public class HeroKnight : MonoBehaviour {
         if (inputX != 0 || !m_grounded) {
             isBlocking = false;
         }
-
-
     }
 
     // Animation Events
@@ -274,10 +231,7 @@ public class HeroKnight : MonoBehaviour {
 
         // Damage Enemies
         foreach (Collider2D enemy in hitEnemies) {
-            // Attack Damage
-            //Debug.Log("Hit enemy for " + attackDamage);
             enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
-            //enemy.GetComponent<EnemyMovementAI>().health -= attackDamage;
         }
     }
 

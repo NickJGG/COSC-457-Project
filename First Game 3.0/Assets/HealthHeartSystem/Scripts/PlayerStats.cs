@@ -65,7 +65,7 @@ public class PlayerStats : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Health Pickup")) {
-            PlayerStats.Instance.Heal(1);
+            Heal(1);
 
             Destroy(other.gameObject);
         }
