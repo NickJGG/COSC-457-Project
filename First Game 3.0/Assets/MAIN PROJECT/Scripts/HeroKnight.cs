@@ -193,16 +193,9 @@ public class HeroKnight : MonoBehaviour {
             isBlocking = true;
         }
 
-        if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("Block"))
-            Debug.Log("Block");
-
-        if (Input.GetMouseButtonUp(1)) {
+        if (Input.GetMouseButtonUp(1) || inputX != 0 || !m_grounded) {
             m_animator.SetBool("IdleBlock", false);
 
-            isBlocking = false;
-        }
-
-        if (inputX != 0 || !m_grounded) {
             isBlocking = false;
         }
     }

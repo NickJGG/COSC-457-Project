@@ -36,6 +36,12 @@ public class Enemy : MonoBehaviour
 
         GetComponent<EnemyMovementAI>().enabled = false;
 
-        Destroy(this);
+        StartCoroutine(Remove());
+    }
+
+    IEnumerator Remove() {
+        yield return new WaitForSeconds(5);
+
+        Destroy(gameObject);
     }
 }

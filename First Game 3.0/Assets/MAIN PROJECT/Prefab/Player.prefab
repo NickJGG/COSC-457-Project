@@ -45,10 +45,8 @@ GameObject:
   - component: {fileID: 7181488512171296741}
   - component: {fileID: 7181488512171296740}
   - component: {fileID: 7181488512171296750}
-  - component: {fileID: 1931293757}
-  - component: {fileID: 1931293758}
   - component: {fileID: 6317374391585842086}
-  - component: {fileID: 4437666928033672229}
+  - component: {fileID: 1541432527338918770}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -231,36 +229,6 @@ SortingGroup:
   m_SortingLayerID: -2077255655
   m_SortingLayer: 1
   m_SortingOrder: 0
---- !u!114 &1931293757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7181488512171296743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c0f78e4acfe21a4594760304164796e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  heartsParent: {fileID: 0}
-  heartContainerPrefab: {fileID: 1000013667988280, guid: 677e3f20f0ab76a45bd59d5b73b0b446,
-    type: 3}
---- !u!114 &1931293758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7181488512171296743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b64c0b1dccc64d91eee52d85267bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 3
-  maxHealth: 3
-  maxTotalHealth: 3
 --- !u!114 &6317374391585842086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,10 +241,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0f78e4acfe21a4594760304164796e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heartsParent: {fileID: 0}
+  heartsParent: {fileID: 1821917215278908584, guid: 0ca88fffff0950c4ab78bab06fb3076d,
+    type: 3}
   heartContainerPrefab: {fileID: 1000013667988280, guid: 677e3f20f0ab76a45bd59d5b73b0b446,
     type: 3}
---- !u!114 &4437666928033672229
+--- !u!114 &1541432527338918770
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
