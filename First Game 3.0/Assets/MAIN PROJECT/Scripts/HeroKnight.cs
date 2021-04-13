@@ -84,13 +84,18 @@ public class HeroKnight : MonoBehaviour {
 
             Vector3 newPosition = child.transform.localPosition;
 
-            m_facingDirection *= -1;
-            GetComponent<SpriteRenderer>().flipX = inputX > 0 ? false : true;
-
             if (inputX > 0) {
                 newPosition.x = Mathf.Abs(newPosition.x);
+
+                m_facingDirection = 1;
+
+                GetComponent<SpriteRenderer>().flipX = false;
             } else if (inputX < 0) {
                 newPosition.x = -Mathf.Abs(newPosition.x);
+
+                m_facingDirection = -1;
+
+                GetComponent<SpriteRenderer>().flipX = true;
             }
 
             child.transform.localPosition = newPosition;
