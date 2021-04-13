@@ -13,8 +13,8 @@ public class LevelWindow : MonoBehaviour
 
     private void Awake() {
         levelText = transform.Find("levelText").GetComponent<Text>();
-        levelText = transform.Find("lAttackPower").GetComponent<Text>();
-        levelText = transform.Find("hAttackPower").GetComponent<Text>();
+        lAttackText = transform.Find("lAttackPower").GetComponent<Text>();
+        hAttackText = transform.Find("hAttackPower").GetComponent<Text>();
         experienceBarImage = transform.Find("ExpBar").GetComponent<Image>();
     }
 
@@ -53,6 +53,8 @@ public class LevelWindow : MonoBehaviour
     private void LevelSystem_OnLevelChanged(object sender, System.EventArgs e) {
         // Level CHanged update text
         SetLevelNumber(levelSystem.GetLevelNumber());
+        SetLightAttack(levelSystem.GetLightAttack());
+        SetHeavyAttack(levelSystem.GetHeavyAttack());
     }
 
     private void LevelSystem_OnExperienceChanged(object sender, System.EventArgs e) {
