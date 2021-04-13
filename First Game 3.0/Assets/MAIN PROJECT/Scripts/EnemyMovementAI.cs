@@ -96,7 +96,9 @@ public class EnemyMovementAI : MonoBehaviour
     IEnumerator AttackPlayer() {
         yield return new WaitForSeconds(.5f);
 
-        if (Mathf.Abs(Vector2.Distance(target.position, transform.position)) < attackRange)
+        HeroKnight player = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroKnight>();
+
+        if (!player.isBlocking && Mathf.Abs(Vector2.Distance(target.position, transform.position)) < attackRange)
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().TakeDamage(1);
     }
 }
