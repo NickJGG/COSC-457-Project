@@ -35,7 +35,7 @@ public class EnemyMovementAI : MonoBehaviour
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>(); //Get Location of Player
-        Debug.Log("Player has been selected as Target");
+        ////Debug.Log("Player has been selected as Target");
     }
 
     // Update is called once per frame
@@ -45,14 +45,14 @@ public class EnemyMovementAI : MonoBehaviour
         
         if (Mathf.Abs(Vector2.Distance(target.position, transform.position)) < detectionRange)
         {
-            Debug.Log("Enemy has been detected");
+            ////Debug.Log("Enemy has been detected");
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
             m_animator.SetInteger("AnimState", 2);
             enemyDetected = true;
         }
         else
         {
-            Debug.Log("Enemy is not detected");
+            //////Debug.Log("Enemy is not detected");
             m_animator.SetInteger("AnimState", 0);
         }
 
@@ -75,7 +75,7 @@ public class EnemyMovementAI : MonoBehaviour
         if (Mathf.Abs(Vector2.Distance(target.position, transform.position)) < attackRange)
         {
 
-            Debug.Log("Enemy is within attack range");
+            ////Debug.Log("Enemy is within attack range");
             m_animator.SetInteger("AnimState", 0);
             //m_animator.SetInteger("AnimState", 0);
             //m_animator.SetTrigger("Attack");
@@ -84,7 +84,7 @@ public class EnemyMovementAI : MonoBehaviour
             if (Time.time > next_attacktime + cooldowntime)
             {
 
-                Debug.Log("Begining Attack Animation");
+                ////Debug.Log("Begining Attack Animation");
                 m_animator.SetInteger("AnimState", 101);
 
 
@@ -99,19 +99,19 @@ public class EnemyMovementAI : MonoBehaviour
                 foreach (Collider2D enemy in hitenemy)
                 {
 
-                    Debug.Log("Begining Attack Animation");
+                    //Debug.Log("Begining Attack Animation");
 
                     //Deal Damage to enemy here
                     if (enemy.GetComponent<HeroKnight>().isBlocking)
                     {
 
-                        Debug.Log("Player Blocked the Attack");
+                        //Debug.Log("Player Blocked the Attack");
 
                     }
                     else
                     {
 
-                        Debug.Log("Damage has been dealt to player");
+                        //Debug.Log("Damage has been dealt to player");
                         enemy.GetComponent<PlayerStats>().TakeDamage(1);
                     }
 
@@ -120,17 +120,23 @@ public class EnemyMovementAI : MonoBehaviour
 
                 */
 
+                HeroKnight player = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroKnight>();
 
-                if (GameObject.FindGameObjectWithTag("Player").GetComponent<HeroKnight>().isBlocking)
+                if (player.isBlocking)
                 {
+                    player.m_animator.SetBool("BlockHit", true);
 
-                    Debug.Log("Player Blocked the Attack");
+                    player.isBlocking = false;
 
+                    StartCoroutine(BlockHit());
+                    //player.m_animator.SetTrigger("BlockHit");
+
+                    player.m_animator.SetBool("BlockHit", false);
                 }
                 else
                 {
 
-                    Debug.Log("Damage has been dealt to player");
+                    ////Debug.Log("Damage has been dealt to player");
                     GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().TakeDamage(1);
                 }
                 next_attacktime = Time.time;
@@ -143,42 +149,13 @@ public class EnemyMovementAI : MonoBehaviour
         else
         {
 
-            Debug.Log("Enemy is NOT within attack range");
+            ////Debug.Log("Enemy is NOT within attack range");
         }
 
         if (health <= 0)
         {
             Destroy(gameObject);
         }
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         //m_animator.SetTrigger("Death");
 
@@ -188,7 +165,7 @@ public class EnemyMovementAI : MonoBehaviour
         
         foreach (Collider2D enemy in detectenemy)
         {
-            //Debug.Log("Hit on " + enemy.name);
+            ////Debug.Log("Hit on " + enemy.name);
             //m_animator.SetTrigger("Attack");
             //m_animator.SetTrigger();
             
@@ -230,23 +207,17 @@ public class EnemyMovementAI : MonoBehaviour
             {
                 enemyDetected = false;
                 m_animator.SetInteger("AnimState", 0);
-                Debug.Log("Hit on " + enemy.name);
+                //Debug.Log("Hit on " + enemy.name);
                 m_animator.SetTrigger("Attack");
                 //m_animator.SetTrigger();
                 //enemyDetected = true;
             }
 
         */
-
-
-
-
     }
 
-
-
-
-
-
+    IEnumerator BlockHit() {
+        yield return new WaitForSeconds(.75f);
+    }
 }
 

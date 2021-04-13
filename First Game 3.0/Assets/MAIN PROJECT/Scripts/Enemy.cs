@@ -29,11 +29,13 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Enemy died!");
-
         animator.SetBool("Death", true);
 
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
+
+        GetComponent<EnemyMovementAI>().enabled = false;
+
+        Destroy(this);
     }
 }

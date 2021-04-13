@@ -38,7 +38,7 @@ public class PlayerStats : MonoBehaviour {
 
     public void TakeDamage(float dmg) {
         health -= dmg;
-        Debug.LogWarning("Take Damage Has been Detected");
+        //Debug.LogWarning("Take Damage Has been Detected");
         ClampHealth();
         if (health <= 0)
         {
