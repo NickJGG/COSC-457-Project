@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void PlayGame() {
-        SceneManager.LoadScene("2DProject");
+        SceneManager.LoadScene("Level 1");
     }
     public void QuitGame() {
         Application.Quit();

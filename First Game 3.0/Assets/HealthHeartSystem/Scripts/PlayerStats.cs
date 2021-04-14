@@ -20,36 +20,39 @@ public class PlayerStats : MonoBehaviour {
     }
     #endregion
 
-    [SerializeField]
-    private float health;
-    [SerializeField]
-    private float maxHealth;
-    [SerializeField]
-    private float maxTotalHealth;
+    public static float health = 3;
+    public static float maxHealth = 3;
+    public static float maxTotalHealth = 3;
+
+    public static float lastHealth = health;
+    public static float lastMaxHealth = maxHealth;
+    public static float lastMaxTotalHealth = maxTotalHealth;
+
+    static float currentLevel = 1;
 
     public float Health { get { return health; } }
     public float MaxHealth { get { return maxHealth; } }
     public float MaxTotalHealth { get { return maxTotalHealth; } }
 
-    public void Heal(float health) {
-        this.health += health;
+    public void Heal(float addingHealth) {
+        health += addingHealth;
+
         ClampHealth();
     }
 
     public void TakeDamage(float dmg) {
         health -= dmg;
-        //Debug.LogWarning("Take Damage Has been Detected");
+
         ClampHealth();
-        if (health <= 0)
-        {
-            SceneManager.LoadScene("2DProject");
-        }
+
+        if (Health <= 0)
+            RestartLevel();
     }
 
     public void AddHealth() {
-        if (maxHealth < maxTotalHealth) {
+        if (MaxHealth < MaxTotalHealth) {
             maxHealth += 1;
-            health = maxHealth;
+            health = MaxHealth;
 
             if (onHealthChangedCallback != null)
                 onHealthChangedCallback.Invoke();
@@ -57,7 +60,7 @@ public class PlayerStats : MonoBehaviour {
     }
 
     void ClampHealth() {
-        health = Mathf.Clamp(health, 0, maxHealth);
+        health = Mathf.Clamp(Health, 0, MaxHealth);
 
         if (onHealthChangedCallback != null)
             onHealthChangedCallback.Invoke();
@@ -65,9 +68,31 @@ public class PlayerStats : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Health Pickup")) {
-            PlayerStats.Instance.Heal(1);
+            Heal(1);
 
             Destroy(other.gameObject);
+        } else if (other.CompareTag("Teleporter")) {
+            NextLevel();
         }
+    }
+
+    void NextLevel() {
+        if (currentLevel < 3) {
+            currentLevel++;
+
+            lastHealth = health;
+            lastMaxHealth = maxHealth;
+            lastMaxTotalHealth = maxTotalHealth;
+
+            SceneManager.LoadScene("Level " + currentLevel);
+        } else
+            Application.Quit();
+    }
+    void RestartLevel() {
+        health = lastHealth;
+        maxHealth = lastMaxHealth;
+        maxTotalHealth = lastMaxTotalHealth;
+
+        SceneManager.LoadScene("Level " + currentLevel);
     }
 }
