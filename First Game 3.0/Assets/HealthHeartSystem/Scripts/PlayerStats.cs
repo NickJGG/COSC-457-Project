@@ -72,6 +72,8 @@ public class PlayerStats : MonoBehaviour {
 
             Destroy(other.gameObject);
         } else if (other.CompareTag("Teleporter")) {
+            Debug.Log("Current Level: " + currentLevel);
+
             NextLevel();
         }
     }

@@ -20,6 +20,7 @@ public class EnemyMovementAI : MonoBehaviour
 
     public Transform attackPoint;
     public float attackRange;
+    public float attackDamage = 1;
     private bool enemyDetected;
 
     public bool isLeftFacing = true;
@@ -99,7 +100,7 @@ public class EnemyMovementAI : MonoBehaviour
         HeroKnight player = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroKnight>();
 
         if (!player.isBlocking && Mathf.Abs(Vector2.Distance(target.position, transform.position)) < attackRange)
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().TakeDamage(1);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().TakeDamage(attackDamage);
     }
 }
 
